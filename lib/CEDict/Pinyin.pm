@@ -1,5 +1,5 @@
 package CEDict::Pinyin;
-# Copyright (c) 2008 Christopher Davaz. All rights reserved.
+# Copyright (c) 2009 Christopher Davaz. All rights reserved.
 # This program is free software; you can redistribute it and/or
 # modify it under the same terms as Perl itself.
 use strict;
@@ -9,7 +9,7 @@ use base qw(Class::Light);
 use Carp;
 use Encode;
 
-$VERSION = '0.02002';
+$VERSION = '0.02003';
 
 =encoding utf8
 
@@ -19,33 +19,33 @@ CEDict::Pinyin - Validates pinyin strings
 
 =head1 SYNOPSIS
 
-use CEDict::Pinyin;
-use Data::Dumper;
+		use CEDict::Pinyin;
+		use Data::Dumper;
 
-my $py    = CEDict::Pinyin->new;
-my $parts = [];
-my @data  = (
-	"ji2 - rui4 cheng2",
-	"xi'an",
-	"dian4 nao3, yuyan2",
-	"kongzi",
-	"123",
-	"not pinyin",
-	"gu1 fstr4 zu3"
-);
+		my $py    = CEDict::Pinyin->new;
+		my $parts = [];
+		my @data  = (
+			"ji2 - rui4 cheng2",
+			"xi'an",
+			"dian4 nao3, yuyan2",
+			"kongzi",
+			"123",
+			"not pinyin",
+			"gu1 fstr4 zu3"
+		);
 
-print "Validating pinyin strings:\n";
+		print "Validating pinyin strings:\n";
 
-for (@data) {
-	my $parts = [];
-	$py->setSource($_);
-	if ($py->isPinyin($parts)) {
-		print "Valid string: $_\n";
-	} else {
-		print "Invalid string: $_\n";
-	}
-	print Dumper($parts);
-}
+		for (@data) {
+			my $parts = [];
+			$py->setSource($_);
+			if ($py->isPinyin($parts)) {
+				print "Valid string: $_\n";
+			} else {
+				print "Invalid string: $_\n";
+			}
+			print Dumper($parts);
+		}
 
 =head1 DESCRIPTION
 
@@ -313,11 +313,11 @@ Christopher Davaz         www.chrisdavaz.com          cdavaz@gmail.com
 
 =head1 VERSION
 
-Version 0.02002 (Apr 25 2009)
+Version 0.02003 (Apr 25 2009)
 
 =head1 COPYRIGHT
 
-Copyright (c) 2008 Christopher Davaz. All rights reserved.
+Copyright (c) 2009 Christopher Davaz. All rights reserved.
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 

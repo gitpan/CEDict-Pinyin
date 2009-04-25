@@ -9,7 +9,7 @@ use base qw(Class::Light);
 use Carp;
 use Encode;
 
-$VERSION = '0.02001';
+$VERSION = '0.02002';
 
 =encoding utf8
 
@@ -313,7 +313,7 @@ Christopher Davaz         www.chrisdavaz.com          cdavaz@gmail.com
 
 =head1 VERSION
 
-Version 0.02001 (Apr 25 2009)
+Version 0.02002 (Apr 25 2009)
 
 =head1 COPYRIGHT
 

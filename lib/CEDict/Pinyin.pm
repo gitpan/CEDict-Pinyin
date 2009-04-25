@@ -9,7 +9,7 @@ use base qw(Class::Light);
 use Carp;
 use Encode;
 
-$VERSION = '0.02000';
+$VERSION = '0.02001';
 
 =encoding utf8
 
@@ -19,23 +19,33 @@ CEDict::Pinyin - Validates pinyin strings
 
 =head1 SYNOPSIS
 
-		use CEDict::Pinyin;
-		use Data::Dumper;
+use CEDict::Pinyin;
+use Data::Dumper;
 
-		my $py    = CEDict::Pinyin->new;
-		my $parts = [];
+my $py    = CEDict::Pinyin->new;
+my $parts = [];
+my @data  = (
+	"ji2 - rui4 cheng2",
+	"xi'an",
+	"dian4 nao3, yuyan2",
+	"kongzi",
+	"123",
+	"not pinyin",
+	"gu1 fstr4 zu3"
+);
 
-		print "Validating pinyin strings:\n";
-		for ("ji2 - rui4 cheng2", "xi'an", "dian4 nao3, yuyan2", "kongzi",
-				"123", "not pinyin", "gu1 fstr4 zu3") {
-			my $parts = [];
-			$py->setSource($_);
-			if ($py->isPinyin($parts)) {
-				print "Valid string: $_\n";
-			} else {
-				print "Invalid string: $_\n";
-			print Dumper($parts);
-		}
+print "Validating pinyin strings:\n";
+
+for (@data) {
+	my $parts = [];
+	$py->setSource($_);
+	if ($py->isPinyin($parts)) {
+		print "Valid string: $_\n";
+	} else {
+		print "Invalid string: $_\n";
+	}
+	print Dumper($parts);
+}
 
 =head1 DESCRIPTION
 
@@ -303,7 +313,7 @@ Christopher Davaz         www.chrisdavaz.com          cdavaz@gmail.com
 
 =head1 VERSION
 
-Version 0.01001 (Jun 11 2008)
+Version 0.02001 (Apr 25 2009)
 
 =head1 COPYRIGHT
 

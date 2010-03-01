@@ -9,7 +9,7 @@ use base qw(Class::Light);
 use Carp;
 use Encode;
 
-$VERSION = '0.02003';
+$VERSION = '0.02004';
 
 =encoding utf8
 
@@ -19,33 +19,27 @@ CEDict::Pinyin - Validates pinyin strings
 
 =head1 SYNOPSIS
 
-		use CEDict::Pinyin;
-		use Data::Dumper;
+    # This is from the test case provided with this module:
 
-		my $py    = CEDict::Pinyin->new;
-		my $parts = [];
-		my @data  = (
-			"ji2 - rui4 cheng2",
-			"xi'an",
-			"dian4 nao3, yuyan2",
-			"kongzi",
-			"123",
-			"not pinyin",
-			"gu1 fstr4 zu3"
-		);
+    use CEDict::Pinyin;
 
-		print "Validating pinyin strings:\n";
+    my @good = ("ji2 - rui4 cheng2", "xi'an", "dian4 nao3, yuyan2", "kongzi");
+    my @bad  = ("123", "not pinyin", "gu1 gu1 fsck4 fu3");
+    my $py   = CEDict::Pinyin->new;
 
-		for (@data) {
-			my $parts = [];
-			$py->setSource($_);
-			if ($py->isPinyin($parts)) {
-				print "Valid string: $_\n";
-			} else {
-				print "Invalid string: $_\n";
-			}
-			print Dumper($parts);
-		}
+    for (@good) {
+      $py->setSource($_);
+      ok($py->isPinyin, "correctly validated good pinyin");
+      print "pinyin: " . $py->getSource . "\n";
+      print "parts: " . join(', ', @{$py->getParts}) . "\n";
+    }
+
+    for (@bad) {
+      $py->setSource($_);
+      ok(!$py->isPinyin, "correctly invalidated bad pinyin");
+      print "pinyin: " . $py->getSource . "\n";
+      print "parts: " . join(', ', @{$py->getParts}) . "\n";
+    }
 
 =head1 DESCRIPTION
 
@@ -112,12 +106,26 @@ sub _init {
 	my $self   = shift;
 	my $source = shift || '';
 	$self->{source} = $source;
+  $self->{parts}  = [];
 }
 
 =item C<< $obj->setSource( >>I<SCALAR>C<)>
 
 Sets the source string to work with. Currently only the C<isPinyin> method accesses
-this attribute.
+this attribute. Returns the previously set pinyin string.
+
+=cut
+
+sub setSource {
+  my $self = shift;
+  my $new  = shift;
+  my $old  = $self->{source};
+
+  $self->{source} = $new; 
+  $self->{parts}  = [];
+
+  return $old;
+}
 
 =item C<< $obj->diacritic >>
 
@@ -167,6 +175,23 @@ sub diacritic {
 	return encode('UTF-8', join (' ', @string));
 }
 
+=item C<< $obj->getParts >>
+
+Returns the individually parsed elements of the pinyin source string.
+
+=cut
+
+# defined by Class::Light
+
+=item C<< $obj->getSource >>
+
+Returns the pinyin source string that was supplied earlier either via the
+constructor or C<< $obj->setSource >>.
+
+=cut
+
+# defined by Class::Light
+
 =item C<< $obj->isPinyin >> I<or> C<< $obj>->isPinyin( >>I<ARRAYREF>C<)>
 
 Validates the pinyin supplied to the constructor or to C<< $obj->setSource(SCALAR) >>.
@@ -178,7 +203,7 @@ immediately returns false. Returns true otherwise.
 
 sub isPinyin {
 	my $self   = shift;
-	my $parts  = shift || [];
+	my $parts  = shift || $self->{parts};
 	my $source = $self->{source};
 	return unless $source;
 	$source = lc $source;
@@ -313,7 +338,7 @@ Christopher Davaz         www.chrisdavaz.com          cdavaz@gmail.com
 
 =head1 VERSION
 
-Version 0.02003 (Apr 25 2009)
+Version 0.02004 (Mar 01 2010)
 
 =head1 COPYRIGHT
 

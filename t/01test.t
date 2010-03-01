@@ -10,10 +10,13 @@ my $py   = CEDict::Pinyin->new;
 for (@good) {
 	$py->setSource($_);
 	ok($py->isPinyin, "correctly validated good pinyin");
+  print "pinyin: " . $py->getSource . "\n";
+  print "parts: " . join(', ', @{$py->getParts}) . "\n";
 }
 
 for (@bad) {
 	$py->setSource($_);
 	ok(!$py->isPinyin, "correctly invalidated bad pinyin");
+  print "pinyin: " . $py->getSource . "\n";
+  print "parts: " . join(', ', @{$py->getParts}) . "\n";
 }
-
